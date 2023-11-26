@@ -8,4 +8,6 @@ public class VideoConstant  {
     public static String VIDEO_NOT_FOUND_MESSAGE = "Video not found";
     public static String VIDEO_ERROR_KEY = "VIDEO_ERROR";
 
+    public static String VIDEO_FORMAT = "classpath:videos/%s.mp4";
+
 }

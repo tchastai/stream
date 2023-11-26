@@ -1,12 +1,12 @@
 package com.spring.stream.controller;
 
+import com.spring.stream.domain.dto.VideoRequestDto;
 import com.spring.stream.domain.dto.VideoResponseDto;
 import com.spring.stream.service.VideoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.Resource;
+import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.util.List;
@@ -20,9 +20,15 @@ public class VideoController {
         this.videoService = videoService;
     }
 
-    @GetMapping("/stream")
-    public ResponseEntity<Void> streamVideo(){
-        return ResponseEntity.ok().build();
+
+    @GetMapping(value = "{videoId}/stream", produces = "video/mp4")
+    public Mono<Resource> streamVideo(@PathVariable Long videoId) {
+        return videoService.streamVideo(videoId);
+    }
+
+    @PostMapping()
+    public ResponseEntity<VideoResponseDto> createVideo(@RequestBody VideoRequestDto videoRequestDto) throws Exception {
+        return ResponseEntity.ok(videoService.createVideo(videoRequestDto));
     }
 
     @GetMapping("/{videoId}")
